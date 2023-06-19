@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -60,6 +63,10 @@ class LoginRequest extends FormRequest
                 $this->inputType => trans('auth.failed'),
             ]);
         }
+
+        //User is connected
+        User::where('id', Auth::user()->id)
+            ->update(['connected' => 1]);
 
         RateLimiter::clear($this->throttleKey());
     }
