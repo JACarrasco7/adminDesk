@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Chat extends Component
@@ -16,6 +17,12 @@ class Chat extends Component
 
     public function boot()
     {
+
+        $last = Message::where('transmitter_id', Auth::user()->id)->where('receiver_id', Auth::user()->id)->latest()->first();
+
+        // dd($last);
+
+
         $this->users = User::where('id', '<>', Auth::user()->id)->get();
     }
     public function render()
@@ -23,10 +30,15 @@ class Chat extends Component
         return view('livewire.chat');
     }
 
-    public function getConversationWithUser($receiver_id)
+    public function getReceiveId($receiver_id)
     {
+        Log::debug($receiver_id);
         $this->receiver_id = $receiver_id;
-        $this->conversationMessages = Message::where('transmitter_id', Auth::user()->id)->where('receiver_id', $receiver_id)->orWhere('transmitter_id', $receiver_id)->Where('receiver_id', Auth::user()->id)->get();
+    }
+
+    public function getConversationWithUser()
+    {
+        $this->conversationMessages = Message::where('transmitter_id', Auth::user()->id)->where('receiver_id', $this->receiver_id)->orWhere('transmitter_id', $this->receiver_id)->Where('receiver_id', Auth::user()->id)->get();
     }
 
     public function sendMessage()
@@ -40,7 +52,7 @@ class Chat extends Component
         ];
 
         $message->create($data);
-        $this->getConversationWithUser($this->receiver_id);
+        // $this->getConversationWithUser($this->receiver_id);
         $this->message = "";
     }
 }
