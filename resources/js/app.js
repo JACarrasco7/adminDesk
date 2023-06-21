@@ -60,3 +60,33 @@ themeToggleBtn.addEventListener("click", function () {
         }
     }
 });
+
+Livewire.on("bottom-scroll", (time) => {
+    if (time != 0) {
+        $("#divu").animate({ scrollTop: $("#divu").prop("scrollHeight") }, 1);
+    } else {
+        $("#divu").animate({ scrollTop: $("#divu").prop("scrollHeight") }, 0);
+    }
+});
+
+Livewire.on("show-chat", () => {
+    console.log($(document).width());
+    if ($(document).width() < 1024) {
+        // page width sm(tailwind)
+        console.log("mostrar div chat");
+        $("#chat-list").addClass("hidden");
+        $("#chat").removeClass("sm:hidden");
+        $("#chat").addClass("flex");
+        $("#chat").removeClass("hidden");
+        $("#arrow-back").addClass("flex");
+        return true;
+    }
+    return false;
+});
+
+$(document).on("click", "#arrow-back", function () {
+    $("#chat-list").removeClass("hidden");
+    $("#chat").addClass("sm:hidden");
+    $("#chat").removeClass("flex");
+    $("#chat").addClass("hidden");
+});

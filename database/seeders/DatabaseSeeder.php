@@ -32,11 +32,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-
         \App\Models\User::create([
             'username' => 'admin',
             'email' => 'admin@admindesk.com',
-            'password' => bcrypt('admin')
+            'password' => bcrypt('1234')
         ]);
 
         \App\Models\UserData::create([
@@ -48,6 +47,23 @@ class DatabaseSeeder extends Seeder
             'city' => 'Lepe',
             'postal_code' => '21440',
             'address' => 'Plz. Acebuche 1, 2ºC',
+        ]);
+
+        \App\Models\User::create([
+            'username' => 'javi',
+            'email' => 'javi@admindesk.com',
+            'password' => bcrypt('1234')
+        ]);
+
+        \App\Models\UserData::create([
+            'user_id' => 1,
+            'name' => 'Javiers',
+            'surnames' => 'Becario',
+            'phone' => '675-70-14-39',
+            'province' => 'Sevilla',
+            'city' => 'Sevilla',
+            'postal_code' => '12345',
+            'address' => 'Debajo un puente',
         ]);
     }
 }
